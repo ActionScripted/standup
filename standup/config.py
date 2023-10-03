@@ -5,19 +5,26 @@ CONFIG_FILE = "standup.toml"
 
 
 class Config:
-    def __init__(self, file_name=CONFIG_FILE):
-        file = pathlib.Path(file_name)
+    _instance = None
 
-        if not file.exists():
-            raise FileNotFoundError(f"Unable to find config file: {file_name}")
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(Config, cls).__new__(cls)
+            cls._instance._file_path = pathlib.Path(CONFIG_FILE)
+            cls._instance._load_config()
+        return cls._instance
 
-        self._config = tomllib.loads(file.read_text())
+    def _load_config(self):
+        if not self._file_path.exists():
+            raise FileNotFoundError(f"Unable to find config file: {self._file_path}")
+
+        self._config = tomllib.loads(self._file_path.read_text())
 
     def __getattribute__(self, name):
         try:
             return super().__getattribute__(name)
         except AttributeError:
-            return self._config[name]
+            return self._config.get(name, None)
 
     def __repr__(self):
         return f"<Config {self._config}>"

@@ -9,15 +9,21 @@ logger = logging.getLogger(__name__)
 
 
 class Registry:
-    def __init__(self, providers=None):
-        if providers is None:
-            providers = []
+    _instance = None
 
-        for provider in providers:
-            self.load(provider)
+    def __new__(cls, providers=None):
+        if not cls._instance:
+            cls._instance = super(Registry, cls).__new__(cls)
+            cls._instance.providers = {}
+
+            if providers:
+                for provider in providers:
+                    cls._instance.load(provider)
+
+        return cls._instance
 
     def __repr__(self):
-        return f"<Providers {self.__dict__}>"
+        return f"<Providers {list(self.providers.keys())}>"
 
     def load(self, provider):
         try:
@@ -27,7 +33,7 @@ class Registry:
                     issubclass(candidate, BaseProvider)
                     and candidate is not BaseProvider
                 ):
-                    self.__dict__[candidate.name] = candidate()
+                    self.providers[candidate.name] = candidate()
         except ImportError:
             logger.error(f"Unable to load provider: {provider}")
 

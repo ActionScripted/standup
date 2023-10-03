@@ -3,4 +3,5 @@
 providers = [
     "standup.providers.github",
     "standup.providers.jira",
+    "local.providers.dognote",
 ]
