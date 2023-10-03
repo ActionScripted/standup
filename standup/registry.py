@@ -2,15 +2,10 @@ import inspect
 import logging
 from importlib import import_module
 
+from standup.config import config
 from standup.providers import BaseProvider
 
 logger = logging.getLogger(__name__)
-
-
-DEFAULT_PROVIDERS = [
-    "standup.providers.github",
-    "standup.providers.jira",
-]
 
 
 class Registry:
@@ -37,4 +32,4 @@ class Registry:
             logger.error(f"Unable to load provider: {provider}")
 
 
-providers = Registry(providers=DEFAULT_PROVIDERS)
+registry = Registry(providers=config.providers)

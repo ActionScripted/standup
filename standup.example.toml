@@ -1,0 +1,6 @@
+# standup example config
+
+providers = [
+    "standup.providers.github",
+    "standup.providers.jira",
+]
