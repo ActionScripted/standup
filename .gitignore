@@ -177,4 +177,5 @@ pyrightconfig.json
 
 # START: Standup Customizations
 local/*
+standup.toml
 # END: Standup Customizations
