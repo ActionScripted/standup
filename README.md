@@ -13,6 +13,12 @@ cp standup.example.toml standup.toml
 python run_standup.py
 ```
 
+For more, check out the help via:
+
+```bash
+python run_standup.py --help
+```
+
 ## Adding Providers
 
 Create a local provider by creating `./local/providers/example.py`:
