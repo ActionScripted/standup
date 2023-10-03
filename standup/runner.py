@@ -7,11 +7,26 @@ logger = logging.getLogger(__name__)
 
 
 class Runner:
-    def __init__(self):
+    """A class responsible for executing the display method of each registered provider.
+
+    Attributes:
+        config: A reference to the application's configuration instance.
+        registry: A reference to the application's provider registry instance.
+    """
+
+    def __init__(self) -> None:
+        """Initialize Runner with configuration and registry instances."""
         self.config = config
         self.registry = registry
 
-    def run(self):
+    def run(self) -> None:
+        """Execute the display method for each provider in the registry.
+
+        For each provider, the method will attempt to execute its display function.
+
+        If an exception is encountered, it logs the error without stopping the
+        execution of other providers.
+        """
         for name, instance in self.registry.providers.items():
             try:
                 instance.display()
