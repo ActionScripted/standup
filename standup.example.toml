@@ -1,7 +1,13 @@
 # standup example config
 
-providers = [
-    "standup.providers.github",
-    "standup.providers.jira",
-    "local.providers.dognote",
-]
+["standup.providers.asana"]
+enabled = false
+api_key = ""
+
+["standup.providers.github"]
+enabled = false
+api_key = "XXX"
+
+["standup.providers.jira"]
+enabled = false
+api_key = "XXX"
