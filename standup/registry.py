@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class Registry:
-    """A singleton registry class to load and manage providers.
+    """Registry to load and manage providers.
 
     Attributes:
         _instance: Holds the single instance of the Registry class.
@@ -19,15 +19,15 @@ class Registry:
 
     _instance: Optional["Registry"] = None
 
-    def __new__(cls, providers: Optional[List[str]] = None) -> "Registry":
+    def __new__(cls, config: Optional[List[str]] = None) -> "Registry":
         """Ensure only one instance of the Registry class is instantiated."""
         if not cls._instance:
             cls._instance = super(Registry, cls).__new__(cls)
             cls._instance.providers = {}
 
-            if providers:
-                for provider in providers:
-                    cls._instance.load(provider)
+            if config.items():
+                for module_name, module_config in config.items():
+                    cls._instance.load(module_name, module_config)
 
         return cls._instance
 
@@ -35,22 +35,23 @@ class Registry:
         """Return a readable representation of the Registry object."""
         return f"<Providers {list(self.providers.keys())}>"
 
-    def load(self, provider: str) -> None:
+    def load(self, provider_module: str, provider_config: dict) -> None:
         """Load the specified provider module and instantiate its classes.
 
         Args:
             provider: The name of the provider module to load.
         """
         try:
-            module = import_module(provider)
+            module = import_module(provider_module)
             for name, candidate in inspect.getmembers(module, inspect.isclass):
                 if (
                     issubclass(candidate, BaseProvider)
                     and candidate is not BaseProvider
                 ):
-                    self.providers[candidate.name] = candidate()
+                    self.providers[candidate.name] = candidate(provider_config)
         except ImportError:
-            logger.error(f"Unable to load provider: {provider}")
+            logger.error(f"Unable to load provider: {provider_module}")
 
 
-registry: Registry = Registry(providers=config.providers)
+# TODO: config.config.config.config...config?
+registry: Registry = Registry(config=config.config)

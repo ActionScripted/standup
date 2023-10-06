@@ -4,6 +4,10 @@ from abc import ABC, abstractmethod
 class BaseProvider(ABC):
     """Base class for providers."""
 
+    def __init__(self, config: dict):
+        """Initialize the provider."""
+        self.config = config
+
     @abstractmethod
     def display(self):
         """Display provider data.

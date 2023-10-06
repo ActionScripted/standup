@@ -1,13 +1,15 @@
-# standup example config
+# Standup Configuration
+# ---
+# NOTE: secrets are only read from the environment.
 
 ["standup.providers.asana"]
+api_key = "ASANA_API_KEY"
 enabled = false
-api_key = ""
 
 ["standup.providers.github"]
+api_key = "GITHUB_TOKEN"
 enabled = false
-api_key = "XXX"
 
 ["standup.providers.jira"]
+api_key = "JIRA_TOKEN"
 enabled = false
-api_key = "XXX"

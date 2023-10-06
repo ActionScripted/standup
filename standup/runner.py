@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class Runner:
-    """A class responsible for executing the display method of each registered provider.
+    """Executing the display method of each registered provider.
 
     Attributes:
         config: A reference to the application's configuration instance.
@@ -34,8 +34,3 @@ class Runner:
                 logger.error(
                     f"Failed to execute display method for provider {name}: {e}"
                 )
-
-
-if __name__ == "__main__":
-    runner = Runner()
-    runner.run()

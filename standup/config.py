@@ -6,7 +6,7 @@ from .utils import recursive_update
 
 
 class Config:
-    """Configuration class to load and access configurations from TOML file.
+    """Configuration to load and access configurations from TOML file.
 
     Attributes:
         _file: The path to the TOML configuration file.
