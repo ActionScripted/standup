@@ -4,8 +4,7 @@
 
 backup: ## Backup config files
 	@echo "Backing up existing config..."
-	@mkdir -p backups
-	@mv standup.toml backups/standup.$(shell date +%s).toml 2>/dev/null
+	@find . -name "standup.toml" -exec mkdir -p backups \; -exec mv {} backups/standup.$(shell date +%s).toml \;
 
 help: ## Show help
 	@echo "Usage: make [recipe]\n\nRecipes:"
