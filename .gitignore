@@ -176,6 +176,7 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python
 
 # START: Standup Customizations
+backups/*
 local/*
 standup.toml
 # END: Standup Customizations
