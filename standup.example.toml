@@ -3,13 +3,13 @@
 # NOTE: secrets are only read from the environment.
 
 ["standup.providers.asana"]
-api_key = "ASANA_API_KEY"
 enabled = false
+env_api_key = "ASANA_env_api_key"
 
 ["standup.providers.github"]
-api_key = "GITHUB_TOKEN"
 enabled = false
+env_api_key = "GITHUB_TOKEN"
 
 ["standup.providers.jira"]
-api_key = "JIRA_TOKEN"
 enabled = false
+env_api_key = "JIRA_TOKEN"

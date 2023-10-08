@@ -5,21 +5,20 @@ Automated standups to show what you've done and what you're doing next.
 ## Quick Start
 
 ```bash
+# Copy repo locally
 git clone git@repo
 cd standup
 
-cp standup.example.toml standup.toml
+# Initialize config, environment, etc.
+make setup
 
-python run_standup.py
+# Run standup!
+make run
 ```
 
-For more, check out the help via:
+## Secrets
 
-```bash
-python run_standup.py --help
-```
-
-Heads up! Default providers will only read secrets from the environment. This is to avoid keys in a config file in a repo buried in your dotfiles that could be easily forgotten, leaked or deprecated. We recommend setting these in your environment:
+Default providers will only read secrets from the environment. This is to avoid keys in a config file in a repo buried in your dotfiles that could be easily forgotten, leaked or deprecated. We recommend setting these in your environment:
 
 ```bash
 # If your setup is version-controlled, add this to .gitignore:
@@ -27,8 +26,9 @@ Heads up! Default providers will only read secrets from the environment. This is
 
 # Add to or create secrets file (e.g. personal.secrets.sh)
 export ASANA_TOKEN="ABCDEFGHIJKLMNOP123456"
-export GITHUB_TOKEN="ghp_abcdefghijlkmnop1234567890"
+export GITHUB_TOKEN="ABCDEFGHIJKLMNOP123456"
 export JIRA_TOKEN="ABCDEFGHIJKLMNOP123456"
+# ...etc.
 
 # Source secrets in your shell config:
 source "$XDG_CONFIG_HOME"/shell/hosts/personal.secrets.sh
@@ -36,7 +36,7 @@ source "$XDG_CONFIG_HOME"/shell/hosts/personal.secrets.sh
 
 Make sure `standup.toml` keys match the names set in the environment and you should be all set!
 
-## Adding Providers
+## Creating Providers
 
 Create a local provider by creating `./local/providers/example.py`:
 
@@ -61,3 +61,5 @@ providers = [
     "local.providers.example",
 ]
 ```
+
+**We strongly suggest pulling secrets from the environment and not from the configuration file.** You can do whatever you want -- it's your provider! -- but we don't think it's a good idea to keep long-lived keys for the types of services we're reading from buried in a configuration file for a project like this.
