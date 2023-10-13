@@ -1,3 +1,4 @@
+import os
 from abc import ABC, abstractmethod
 
 
@@ -7,6 +8,20 @@ class BaseProvider(ABC):
     def __init__(self, config: dict):
         """Initialize the provider."""
         self.config = config
+        self.load_env()
+
+    def load_env(self):
+        """Load environment variables."""
+        for key, value in self.config.items():
+            if key.startswith("env_"):
+                env_value = os.getenv(value, None)
+
+                if env_value is None:
+                    raise ValueError(
+                        f"{value} is not set! Please set environment variable or disable {self.name} provider."
+                    )
+
+                setattr(self, key, env_value)
 
     @abstractmethod
     def display(self):

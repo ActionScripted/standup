@@ -27,7 +27,8 @@ class Registry:
 
             if config.items():
                 for module_name, module_config in config.items():
-                    cls._instance.load(module_name, module_config)
+                    if module_config["enabled"]:
+                        cls._instance.load(module_name, module_config)
 
         return cls._instance
 

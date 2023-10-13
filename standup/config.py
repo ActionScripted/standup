@@ -46,6 +46,8 @@ class Config:
             raise FileNotFoundError(f"Unable to find config file: {file}")
 
         config = tomllib.loads(file.read_text())
+
+        # Merge defaults with loaded config
         self.config = recursive_update(self.defaults, config)
 
     def __getattribute__(self, name: str) -> Any:

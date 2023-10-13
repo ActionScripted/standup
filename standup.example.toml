@@ -3,8 +3,10 @@
 # NOTE: secrets are only read from the environment.
 
 ["standup.providers.asana"]
-enabled = false
-env_api_key = "ASANA_env_api_key"
+enabled = true
+env_token = "ASANA_TOKEN"
+env_user = "ASANA_USER"
+env_workspace = "ASANA_WORKSPACE"
 
 ["standup.providers.github"]
 enabled = false
