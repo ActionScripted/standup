@@ -1,8 +1,5 @@
 import logging
 
-from .config import config
-from .registry import registry
-
 logger = logging.getLogger(__name__)
 
 
@@ -16,8 +13,8 @@ class Runner:
 
     def __init__(self) -> None:
         """Initialize Runner with configuration and registry instances."""
-        self.config = config
-        self.registry = registry
+        # self.config = config
+        # self.registry = registry
 
     def run(self) -> None:
         """Execute the display method for each provider in the registry.
@@ -27,7 +24,11 @@ class Runner:
         If an exception is encountered, it logs the error without stopping the
         execution of other providers.
         """
-        for name, instance in self.registry.providers.items():
+
+        # TODO: Consider ditching singletons so we don't do anything on import.
+        from .registry import registry
+
+        for name, instance in registry.providers.items():
             try:
                 instance.display()
             except Exception as e:

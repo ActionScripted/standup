@@ -18,10 +18,11 @@ class Registry:
     """
 
     _instance: Optional["Registry"] = None
+    providers: dict = {}
 
-    def __new__(cls, config: Optional[List[str]] = None) -> "Registry":
+    def __new__(cls, config: Optional[dict] = None) -> "Registry":
         """Ensure only one instance of the Registry class is instantiated."""
-        if not cls._instance:
+        if config and not cls._instance:
             cls._instance = super(Registry, cls).__new__(cls)
             cls._instance.providers = {}
 
@@ -44,7 +45,7 @@ class Registry:
         """
         try:
             module = import_module(provider_module)
-            for name, candidate in inspect.getmembers(module, inspect.isclass):
+            for _, candidate in inspect.getmembers(module, inspect.isclass):
                 if (
                     issubclass(candidate, BaseProvider)
                     and candidate is not BaseProvider

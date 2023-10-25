@@ -18,6 +18,7 @@ class Config:
     _file = "standup.toml"
     _instance = None
 
+    config: dict = {}
     defaults = {
         "standup.providers.asana": {
             "enabled": False,

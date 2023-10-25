@@ -18,18 +18,12 @@ def configure_logging(level: str) -> None:
     )
 
 
-def main(args: argparse.Namespace) -> None:
+def main() -> None:
     """Execute the Runner to display information from providers.
 
     Args:
         args (argparse.Namespace): Command-line arguments.
     """
-    configure_logging(args.log_level)
-    runner = Runner()
-    runner.run()
-
-
-if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the standup! Grab your coffee.")
     parser.add_argument(
         "--log-level",
@@ -38,4 +32,12 @@ if __name__ == "__main__":
         help="Set the logging level.",
     )
     args = parser.parse_args()
-    main(args)
+
+    configure_logging(args.log_level)
+
+    runner = Runner()
+    runner.run()
+
+
+if __name__ == "__main__":
+    main()
