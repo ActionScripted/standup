@@ -1,10 +1,13 @@
+import functools
 import http.client
 import json
 import re
-
 import urllib
 from datetime import datetime, timedelta
 from itertools import groupby
+
+import asana
+
 from . import BaseProvider
 
 
@@ -12,19 +15,40 @@ class AsanaProvider(BaseProvider):
     """Asana provider."""
 
     name = "asana"
+    env_token = None
+
+    @functools.cached_property
+    def client(self):
+        """Return an Asana client."""
+        client = asana.Client.access_token(self.env_token)
+        client.headers = {
+            "asana-enable": "new_user_task_lists,new_project_templates,new_memberships,new_goal_memberships",
+        }
+
+        return client
 
     def get_task_list_id(self):
-        # This can be programmatically found via:
-        # https://developers.asana.com/reference/getusertasklistforuser
-        ASANA_TASK_LIST = "1200507865494550"
+        """Get the task list ID for the user's default workspace.
 
-        return ASANA_TASK_LIST
+        Written as a shitty one-liner because that's how I feel about
+        how I have to get the user's personal task list ID.
+        """
+        return self.client.user_task_lists.find_by_user(
+            "me",
+            params={
+                "workspace": self.client.users.get_user("me")["workspaces"][0]["gid"]
+            },
+        )["gid"]
 
     def get_tasks(self):
-        pass
+        """Get tasks for the user."""
+        return self.client.tasks.get_tasks_for_user_task_list(self.get_task_list_id())
 
     def display(self):
         """Display provider data."""
+
+        print(list(self.get_tasks())[0])
+        return
 
         today = datetime.now()
         yesterday = today - timedelta(1)

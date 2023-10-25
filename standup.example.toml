@@ -5,8 +5,8 @@
 ["standup.providers.asana"]
 enabled = true
 env_token = "ASANA_TOKEN"
-env_user = "ASANA_USER"
-env_workspace = "ASANA_WORKSPACE"
+#env_user = "ASANA_USER"
+#env_workspace = "ASANA_WORKSPACE"
 
 ["standup.providers.github"]
 enabled = false
